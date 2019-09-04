@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class WorldGenerator : MonoBehaviour
 {
+    [Header("Island")]
 	[SerializeField] float IslandWidth = 50;
 	[SerializeField] float IslandLength = 50;
 
-	[Header("Water")]
+    [Header("Colours")]
+    public Color PlainsColour;
+    public Color ForestColour;
+    public Color DesertColour;
+
+    [Header("Water")]
 	[SerializeField] float WaterWidth = 50;
 	[SerializeField] float WaterLength = 50;
 	[SerializeField] float BaseWaterHeight = -1f;
@@ -42,8 +48,23 @@ public class WorldGenerator : MonoBehaviour
 
 				GameObject newHex = Instantiate(Hex, new Vector3((j % 2 == 0) ? (i * 1.7321f) + 0.86603f : i * 1.7321f, height, j * 1.5f), Quaternion.identity);
 
-				newHex.GetComponent<MeshRenderer>().material.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1);
-			}
+                int rand = Random.Range(0, 3);
+
+                if (rand == 0)
+                    newHex.GetComponent<HexManager>().thisBiome = HexManager.BiomeType.Plains;
+                else if (rand == 1)
+                    newHex.GetComponent<HexManager>().thisBiome = HexManager.BiomeType.Forest;
+                else if (rand == 2)
+                    newHex.GetComponent<HexManager>().thisBiome = HexManager.BiomeType.Desert;
+
+                if(newHex.GetComponent<HexManager>().thisBiome == HexManager.BiomeType.Plains)
+                    newHex.GetComponent<MeshRenderer>().material.color = PlainsColour;
+                else if (newHex.GetComponent<HexManager>().thisBiome == HexManager.BiomeType.Forest)
+                    newHex.GetComponent<MeshRenderer>().material.color = ForestColour;
+                else if (newHex.GetComponent<HexManager>().thisBiome == HexManager.BiomeType.Desert)
+                    newHex.GetComponent<MeshRenderer>().material.color = DesertColour;
+
+            }
 		}
 
 		GenerateWater();
@@ -51,45 +72,6 @@ public class WorldGenerator : MonoBehaviour
 
 	void GenerateWater()
 	{
-		//for (int i = 0; i > -IslandLength; i--)
-		//{
-		//	for (int j = 0; j > -IslandWidth; j--)
-		//	{
-		//		if (i == 0 && j == 0)
-		//			continue;
-
-		//		GameObject newHex = Instantiate(Hex, new Vector3((j % 2 == 0) ? (i * 1.7321f) + 0.86603f : i * 1.7321f, -3, j * 1.5f), Quaternion.identity);
-
-		//		newHex.GetComponent<MeshRenderer>().material.color = Color.cyan;
-		//	}
-		//}
-
-		//for (int i = 0; i < IslandLength * 2; i++)
-		//{
-		//	for (int j = 0; j > -IslandWidth; j--)
-		//	{
-		//		if (i == 0 || j == 0)
-		//			continue;
-
-		//		GameObject newHex = Instantiate(Hex, new Vector3((j % 2 == 0) ? (i * 1.7321f) + 0.86603f : i * 1.7321f, -3, j * 1.5f), Quaternion.identity);
-
-		//		newHex.GetComponent<MeshRenderer>().material.color = Color.cyan;
-		//	}
-		//}
-
-		//for (int i = 0; i > -IslandLength; i--)
-		//{
-		//	for (int j = 0; j < IslandWidth * 2; j++)
-		//	{
-		//		if (i == 0 || j == 0)
-		//			continue;
-
-		//		GameObject newHex = Instantiate(Hex, new Vector3((j % 2 == 0) ? (i * 1.7321f) + 0.86603f : i * 1.7321f, -3, j * 1.5f), Quaternion.identity);
-
-		//		newHex.GetComponent<MeshRenderer>().material.color = Color.cyan;
-		//	}
-		//}
-
 		for (int i = (int)-WaterLength; i < WaterLength * 2; i++)
 		{
 			for (int j = (int)-WaterWidth; j < WaterWidth * 2; j++)
@@ -99,7 +81,7 @@ public class WorldGenerator : MonoBehaviour
 
 				GameObject newHex = Instantiate(Hex, new Vector3((j % 2 == 0) ? (i * 1.7321f) + 0.86603f : i * 1.7321f, BaseWaterHeight, j * 1.5f), Quaternion.identity);
 
-				newHex.GetComponent<MeshRenderer>().material.color = Color.cyan;
+				newHex.GetComponent<MeshRenderer>().material.color = Color.blue;
 
 				Water.Add(newHex.transform);
 			}
