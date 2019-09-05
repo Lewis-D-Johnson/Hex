@@ -43,7 +43,7 @@ public class WorldGenerator : MonoBehaviour
 		{
 			for (int j = 0; j < IslandWidth; j++)
 			{
-				float height = Mathf.PerlinNoise(((float)i + RandomSeed) / NoiseScale, ((float)j + RandomSeed) / NoiseScale) * HeightScale;
+				float height = (Mathf.PerlinNoise(((float)i + RandomSeed) / NoiseScale, ((float)j + RandomSeed) / NoiseScale) * HeightScale) + 0.5f;
 
 				GameObject newHex = Instantiate(Hex, new Vector3((j % 2 == 0) ? (i * 1.7321f) + 0.86603f : i * 1.7321f, height, j * 1.5f), Quaternion.identity);
 

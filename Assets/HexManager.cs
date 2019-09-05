@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HexManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class HexManager : MonoBehaviour
 	public GameObject ForestType;
 	public GameObject FarmingType;
 	public GameObject HousingType;
+    public Transform InteractCanvas;
 
 	[Header("Water")]
 	[SerializeField] float WaterWaveHeight = 1f;
@@ -27,8 +29,11 @@ public class HexManager : MonoBehaviour
 
 	[Header("UI")]
 	[SerializeField] GameObject SelectedIcon;
+    [SerializeField] Text Title;
+    [SerializeField] Text Description;
 
-	private void Start()
+
+    private void Start()
 	{
 		if (!isWater)
 		{
@@ -82,7 +87,7 @@ public class HexManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (!moveUp)
+		if (moveUp)
 		{
 			transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(transform.localPosition.x, -randomHeight, transform.localPosition.z), randomSpeed);
 		}
@@ -90,11 +95,13 @@ public class HexManager : MonoBehaviour
 		{
 			transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(transform.localPosition.x, randomHeight, transform.localPosition.z), randomSpeed);
 		}
+
+        InteractCanvas.LookAt(Camera.main.transform);
 	}
 
 	IEnumerator CheckWater()
 	{
-		if (transform.localPosition.y >= randomHeight - 0.05f)
+		if (transform.localPosition.y >= randomHeight - 0.5f)
 		{
 			moveUp = true;
 		}
@@ -115,10 +122,25 @@ public class HexManager : MonoBehaviour
 
 	private void OnMouseEnter()
 	{
-		SelectedIcon.SetActive(true);		
+        if(!isWater)
+		    SelectedIcon.SetActive(true);		
 	}
 	private void OnMouseExit()
-	{
-		SelectedIcon.SetActive(false);
+    {
+        if (!isWater)
+            SelectedIcon.SetActive(false);
 	}
+
+    private void OnMouseDown()
+    {
+        ToggleInteractCanvas();
+    }
+
+    void ToggleInteractCanvas()
+    {
+        InteractCanvas.gameObject.SetActive(!InteractCanvas.gameObject.activeInHierarchy);
+
+        Title.text = thisBiome.ToString().ToUpper() + " - " + thisType.ToString().ToUpper();
+        Description.text = "This description will be filled in very shortly!";
+    }
 }
