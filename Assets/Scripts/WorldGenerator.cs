@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class WorldGenerator : MonoBehaviour
 {
-    [Header("Island")]
+	[Header("Island")]
 	[SerializeField] float IslandWidth = 50;
 	[SerializeField] float IslandLength = 50;
 
-    [Header("Colours")]
-    public Color PlainsColour;
-    public Color ForestColour;
-    public Color DesertColour;
+	[Header("Colours")]
+	public Color PlainsColour;
+	public Color ForestColour;
+	public Color DesertColour;
+	public Gradient WaterGradient;
 
-    [Header("Water")]
+	[Header("Water")]
 	[SerializeField] float WaterWidth = 50;
 	[SerializeField] float WaterLength = 50;
 	[SerializeField] float BaseWaterHeight = -1f;
 	public List<Transform> Water = new List<Transform>();
-	public float WaterHeighScale, WaterWaveSpeed;
 
 	[SerializeField] float HeightScale = 1.5f;
 	[SerializeField] float NoiseScale = 3f;
@@ -27,14 +27,13 @@ public class WorldGenerator : MonoBehaviour
 	[SerializeField] GameObject Hex;
 
 	void Start()
-    {
+	{
 		Generate();
-    }
-	
-    void Update()
-    {
+	}
 
-    }
+	void Update()
+	{
+	}
 
 	void Generate()
 	{
@@ -48,23 +47,25 @@ public class WorldGenerator : MonoBehaviour
 
 				GameObject newHex = Instantiate(Hex, new Vector3((j % 2 == 0) ? (i * 1.7321f) + 0.86603f : i * 1.7321f, height, j * 1.5f), Quaternion.identity);
 
-                int rand = Random.Range(0, 3);
+				newHex.transform.SetParent(transform);
 
-                if (rand == 0)
-                    newHex.GetComponent<HexManager>().thisBiome = HexManager.BiomeType.Plains;
-                else if (rand == 1)
-                    newHex.GetComponent<HexManager>().thisBiome = HexManager.BiomeType.Forest;
-                else if (rand == 2)
-                    newHex.GetComponent<HexManager>().thisBiome = HexManager.BiomeType.Desert;
+				int rand = Random.Range(0, 3);
 
-                if(newHex.GetComponent<HexManager>().thisBiome == HexManager.BiomeType.Plains)
-                    newHex.GetComponent<MeshRenderer>().material.color = PlainsColour;
-                else if (newHex.GetComponent<HexManager>().thisBiome == HexManager.BiomeType.Forest)
-                    newHex.GetComponent<MeshRenderer>().material.color = ForestColour;
-                else if (newHex.GetComponent<HexManager>().thisBiome == HexManager.BiomeType.Desert)
-                    newHex.GetComponent<MeshRenderer>().material.color = DesertColour;
+				if (rand == 0)
+					newHex.GetComponent<HexManager>().thisBiome = HexManager.BiomeType.Plains;
+				else if (rand == 1)
+					newHex.GetComponent<HexManager>().thisBiome = HexManager.BiomeType.Forest;
+				else if (rand == 2)
+					newHex.GetComponent<HexManager>().thisBiome = HexManager.BiomeType.Desert;
 
-            }
+				if (newHex.GetComponent<HexManager>().thisBiome == HexManager.BiomeType.Plains)
+					newHex.GetComponent<MeshRenderer>().material.color = PlainsColour;
+				else if (newHex.GetComponent<HexManager>().thisBiome == HexManager.BiomeType.Forest)
+					newHex.GetComponent<MeshRenderer>().material.color = ForestColour;
+				else if (newHex.GetComponent<HexManager>().thisBiome == HexManager.BiomeType.Desert)
+					newHex.GetComponent<MeshRenderer>().material.color = DesertColour;
+
+			}
 		}
 
 		GenerateWater();
@@ -81,9 +82,12 @@ public class WorldGenerator : MonoBehaviour
 
 				GameObject newHex = Instantiate(Hex, new Vector3((j % 2 == 0) ? (i * 1.7321f) + 0.86603f : i * 1.7321f, BaseWaterHeight, j * 1.5f), Quaternion.identity);
 
-				newHex.GetComponent<MeshRenderer>().material.color = Color.blue;
+				newHex.GetComponent<MeshRenderer>().material.color = WaterGradient.Evaluate(Random.Range(0f, 1f));
+
+				newHex.transform.SetParent(transform);
 
 				Water.Add(newHex.transform);
+				newHex.GetComponent<HexManager>().isWater = true;
 			}
 		}
 	}
