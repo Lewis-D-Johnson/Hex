@@ -6,13 +6,15 @@ using UnityEngine.UI;
 public class HexManager : MonoBehaviour
 {
 	[Header("Statistics")]
-	public string BiomeName;
+	public int HexPopulation;
 	public enum HexType { None, Mining, Forest, Farming, Housing }
 	public HexType thisType;
 
 	public bool isWater;
 
-	[Header("Components")]
+    [Header("Components")]
+    public Transform HexerHolder;
+    public GameObject Hexer;
 	public GameObject TypeParent;
 	public GameObject MiningType;
 	public GameObject ForestType;
@@ -38,9 +40,11 @@ public class HexManager : MonoBehaviour
 
 	private void Start()
 	{
-		if (!isWater)
+        ColonizeBttn.onClick.AddListener(ColonizeHex);
+
+        if (!isWater)
 		{
-			InteractCanvas.GetComponent<Canvas>().worldCamera = Camera.main.transform.GetChild(0).GetComponent<Camera>();
+            InteractCanvas.GetComponent<Canvas>().worldCamera = Camera.main;//.transform.GetChild(0).GetComponent<Camera>();
 
 			int randRotation = Random.Range(0, 7);
 
@@ -163,14 +167,35 @@ public class HexManager : MonoBehaviour
 
     private void OnMouseDown()
     {
-		InteractionManager.instance.ChangeInteraction(this);
+        if(!isWater)
+		    InteractionManager.instance.ChangeInteraction(this);
     }
 
     public void ToggleInteractCanvas()
     {
         InteractCanvas.gameObject.SetActive(!InteractCanvas.gameObject.activeInHierarchy);
 
-        Title.text = BiomeName.ToUpper() + " - " + thisType.ToString().ToUpper();
+        //Title.text = BiomeName.ToUpper() + " - " + thisType.ToString().ToUpper();
         Description.text = "This description will be filled in very shortly!";
     }
+
+    #region ButtonMethods
+
+    public void ColonizeHex()
+    {
+        if (GameManager.instance.CurPopulation > 0)
+        {
+            HexPopulation = GameManager.instance.CurPopulation;
+
+            for (int i = 0; i < GameManager.instance.CurPopulation; i++)
+            {
+                GameObject newHexer = Instantiate(Hexer, HexerHolder);
+                newHexer.transform.localPosition = new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(-0.5f, 0.5f));
+            }
+
+            GameManager.instance.CurPopulation = 0;
+        }
+    }
+
+    #endregion
 }

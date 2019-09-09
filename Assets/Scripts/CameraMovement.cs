@@ -13,7 +13,7 @@ public class CameraMovement : MonoBehaviour
 	
     void Update()
     {
-		if ((Input.GetKey(KeyCode.LeftControl)))
+		if ((Input.GetKey(KeyCode.LeftShift)))
 		{
 			transform.Translate(Vector3.forward * (CameraSpeed * Input.GetAxis("Vertical")));
 		}

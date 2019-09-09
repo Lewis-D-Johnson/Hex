@@ -1,0 +1,37 @@
+Base path: '/Applications/Unity/Hub/Editor/2019.3.0b1/Unity.app/Contents', plugins path '/Applications/Unity/Hub/Editor/2019.3.0b1/PlaybackEngines'
+Cmd: initializeCompiler
+Cmd: compileComputeKernel
+  api=14 insize=18299 outsize=9505 ok=1
+Cmd: compileComputeKernel
+  api=14 insize=18299 outsize=11282 ok=1
+Cmd: translateComputeKernel
+  api=14 insize=9505 outsize=16315 ok=1
+Cmd: translateComputeKernel
+  api=14 insize=9375 outsize=16169 ok=1
+Cmd: translateComputeKernel
+  api=14 insize=11447 outsize=25062 ok=1
+Cmd: compileComputeKernel
+  api=14 insize=1176 outsize=1348 ok=1
+Cmd: compileComputeKernel
+  api=14 insize=4855 outsize=5116 ok=1
+Cmd: translateComputeKernel
+  api=14 insize=7304 outsize=11321 ok=1
+Cmd: compileComputeKernel
+  api=14 insize=3070 outsize=48467 ok=1
+Cmd: compileComputeKernel
+  api=14 insize=10881 outsize=11289 ok=1
+Cmd: translateComputeKernel
+  api=14 insize=10544 outsize=18402 ok=1
+Cmd: compileComputeKernel
+  api=14 insize=2059 outsize=2127 ok=1
+Cmd: translateComputeKernel
+  api=14 insize=865 outsize=805 ok=1
+Cmd: translateComputeKernel
+  api=14 insize=3386 outsize=5934 ok=1
+Cmd: translateComputeKernel
+  api=14 insize=2124 outsize=3456 ok=1
+Cmd: compileSnippet
+  api=14 type=1 insize=11538 outsize=4057 kw=COLOR_GRADING_HDR_3D pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR ok=1
+Unhandled exception: Protocol error - unexpected end of data (did the Editor crash?)
+
+Quitting shader compiler process

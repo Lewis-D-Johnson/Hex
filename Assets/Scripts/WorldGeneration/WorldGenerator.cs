@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class WorldGenerator : MonoBehaviour
 {
@@ -45,15 +46,19 @@ public class WorldGenerator : MonoBehaviour
 
 				newHex.transform.SetParent(transform);
 
+                newHex.AddComponent<MeshCollider>();
+
 				int randBiome = Random.Range(0, BiomeManager.instance.Biomes.Count);
 
-				newHex.GetComponent<HexManager>().BiomeName = BiomeManager.instance.Biomes[randBiome].Name;
+				//newHex.GetComponent<HexManager>().BiomeName = BiomeManager.instance.Biomes[randBiome].Name;
 				newHex.GetComponent<MeshRenderer>().material.color = BiomeManager.instance.Biomes[randBiome].HexColor;
 
 			}
 		}
 
 		GenerateWater();
+
+        GameManager.instance.GetComponent<NavMeshSurface>().BuildNavMesh();
 	}
 
 	void GenerateWater()
@@ -70,6 +75,8 @@ public class WorldGenerator : MonoBehaviour
 				newHex.GetComponent<MeshRenderer>().material.color = WaterGradient.Evaluate(Random.Range(0f, 1f));
 
 				newHex.transform.SetParent(transform);
+
+                newHex.layer = 4;
 
 				Water.Add(newHex.transform);
 				newHex.GetComponent<HexManager>().isWater = true;
